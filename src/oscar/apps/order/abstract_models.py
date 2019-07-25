@@ -618,7 +618,11 @@ class AbstractLine(models.Model):
         """
         Return all possible statuses for an order line
         """
-        return list(cls.pipeline.keys())
+        all_statuses = []
+        for status, related_statuses in cls.pipeline.items():
+            all_statuses.append(status)
+            all_statuses.extend(related_statuses)
+        return list(set(all_statuses))
 
     def available_statuses(self):
         """
